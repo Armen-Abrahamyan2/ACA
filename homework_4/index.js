@@ -137,7 +137,91 @@ function test (name) {
 
 // b) the function has a concretely return value, and the value is taken from the functions despite the argument passed
 
+// 7. Write Car class, which have
+// properties:
+// 	static finishPosition: number
+// 	name: string,
+// 	 color: string(hashcode of color),
+// 	 currentPosition: number(on start it equal to 0),
+// 	 intervalPinter: number(setInterval pointer, that need for stopping interval)
+// 	 speed: number(ex. 10, it means car can go 10px for 1 second),
+// methods:
+// 	reset() -> it will reset currentPosition to 0
+// 	start() -> it should update currentPosition value by speed each 300ms(with setInterval) and log it to console, if currentPosition equal or more then finishPosition, then call stop method
+// 	stop() -> will stop interval and log`[name] car was finished`
+//
+// set some finishPosition value for Car
+// create 3 Cars with different parameters
+// create function that will start car competition
 
+let finishPosition = 120;
+class Car {
+    static get finishPosition() {
+        return finishPosition;
+    }
+    static set finishPosition(value) {
+        finishPosition = value;
+    }
+
+    constructor(name, color, speed) { // intervalPointer
+        this.name = name;
+        this.color = color;
+        this.intervalPointer;
+        this.currentPosition = 0;
+        this.speed = speed;
+    }
+
+    reset() {
+        this.currentPosition = 0;
+    }
+
+    start() {
+        this.intervalPointer = setInterval(() => {
+            this.currentPosition = this.currentPosition + this.speed;
+            console.log(`${this.name} currentPosition is >>`, this.currentPosition);
+            if (this.currentPosition >= Car.finishPosition) {
+                return this.stop();
+            }
+
+        }, 300);
+    }
+    stop() {
+        clearInterval(this.intervalPointer);
+        this.reset();
+        console.log(`${this.name} car was finished`);
+    }
+}
+
+// Now we use create a Car object using the class
+
+let car1 = new Car("Ford", "#000", 15);
+car1.start();
+let car2 = new Car("Mercedes", "#fff", 20);
+car2.start();
+let car3 = new Car("BMW", "#ccc", 25);
+car3.start();
+
+function biggestNumberInArray(arr) { // The largest number at first should be the first element or null for empty array
+
+    let result;
+    let arrFiltered = arr.map((item) => item.speed);
+    let largest = arrFiltered[0] || null;
+
+    // Current number, handled by the loop
+    let number = null;
+    for (let i = 0; i < arrFiltered.length; i++) { // Update current number
+        number = arrFiltered[i];
+
+        // Compares stored largest number with current number, stores the largest one
+        largest = Math.max(largest, number);
+        result = arr.filter((item) => largest === item.speed)
+    }
+
+    return result[0];
+}
+let arr = [car1, car2, car3];
+
+console.log(`${biggestNumberInArray(arr).name} is the best`);
 
 
 
